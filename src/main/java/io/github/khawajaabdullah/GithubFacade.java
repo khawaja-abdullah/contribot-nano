@@ -1,0 +1,53 @@
+package io.github.khawajaabdullah;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
+
+public class GithubFacade {
+
+  private static final System.Logger LOGGER = System.getLogger(GithubFacade.class.getName());
+
+  private final HttpClient httpClient;
+  private final ApplicationConfiguration applicationConfiguration;
+
+  public GithubFacade(HttpClient httpClient, ApplicationConfiguration applicationConfiguration) {
+    this.httpClient = httpClient;
+    this.applicationConfiguration = applicationConfiguration;
+  }
+
+  public String searchIssues(String rawQuery) {
+    var url = "%s%s?q=%s&sort=created&order=desc&per_page=%s".formatted(
+        applicationConfiguration.getValue(Constant.GITHUB_API_BASE_URL_KEY),
+        applicationConfiguration.getValue(Constant.GITHUB_API_ISSUE_SEARCH_PATH_KEY),
+        URLEncoder.encode(rawQuery, StandardCharsets.UTF_8),
+        applicationConfiguration.getValue(Constant.GITHUB_API_ISSUE_SEARCH_PAGE_SIZE_KEY)
+    );
+    LOGGER.log(System.Logger.Level.INFO, "Constructed GitHub API URL: {0}", url);
+    var httpRequest = HttpRequest.newBuilder()
+        .header(Constant.ACCEPT_HEADER, "application/vnd.github+json")
+        .header(Constant.AUTHORIZATION_HEADER, "Bearer %s".formatted(applicationConfiguration.getValue(Constant.GITHUB_API_TOKEN)))
+        .uri(URI.create(url))
+        .GET()
+        .build();
+    try {
+      HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+      if (httpResponse.statusCode() != 200) {
+        throw new ContribotNanoException("GitHub API returned non-OK status: %d, response body: %s".formatted(
+            httpResponse.statusCode(), httpResponse.body()
+        ));
+      }
+      return httpResponse.body();
+    } catch (IOException e) {
+      throw new ContribotNanoException("Failed to search issues on GitHub: %s".formatted(e.getMessage()), e);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ContribotNanoException("Failed to search issues on GitHub: %s".formatted(e.getMessage()), e);
+    }
+  }
+
+}
