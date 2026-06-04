@@ -5,11 +5,11 @@ import java.time.ZoneOffset;
 
 public class GithubIssueSearchQueryBuilder {
 
-  private String language = "java";
-  private String label = "good first issue";
-  private String state = "open";
-  private String createdAfter = LocalDateTime.now().minusHours(24).toInstant(ZoneOffset.UTC).toString();
-  private boolean unassigned = true;
+  private String language;
+  private String label;
+  private String state;
+  private String createdAfter;
+  private boolean unassigned;
 
   private GithubIssueSearchQueryBuilder() {
   }
