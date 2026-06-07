@@ -21,7 +21,6 @@ public class ContribotNanoApplication {
       LOGGER.log(System.Logger.Level.INFO, "Constructed GitHub issue search raw query: {0}", rawQuery);
       String issues = githubFacade.searchIssues(rawQuery);
       LOGGER.log(System.Logger.Level.INFO, "Fetched issues: {0}", issues);
-      LOGGER.log(System.Logger.Level.INFO, "Contribot Nano application started successfully!");
     } catch (ContribotNanoException e) {
       LOGGER.log(System.Logger.Level.ERROR, "Failed to start Contribot Nano application: {0}", e.getMessage());
     }
