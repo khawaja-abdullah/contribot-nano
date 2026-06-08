@@ -1,6 +1,5 @@
 package io.github.khawajaabdullah;
 
-import java.io.InputStream;
 import java.util.Properties;
 
 public class ApplicationConfiguration {
@@ -13,7 +12,7 @@ public class ApplicationConfiguration {
   }
 
   private void load(String filePath) {
-    try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath)) {
+    try (var inputStream = getClass().getClassLoader().getResourceAsStream(filePath)) {
       if (inputStream != null) {
         properties.load(inputStream);
       } else {
@@ -25,8 +24,8 @@ public class ApplicationConfiguration {
   }
 
   public String getValue(String key) {
-    String envKey = key.toUpperCase().replace(".", "_");
-    String envValue = System.getenv(envKey);
+    var envKey = key.toUpperCase().replace(".", "_");
+    var envValue = System.getenv(envKey);
     return envValue != null && !envValue.isBlank() ? envValue : properties.getProperty(key);
   }
 

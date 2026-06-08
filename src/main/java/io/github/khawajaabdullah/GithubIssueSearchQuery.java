@@ -21,7 +21,7 @@ public class GithubIssueSearchQuery {
   }
 
   public String toString() {
-    StringBuilder githubIssueSearchQueryStringBuilder = new StringBuilder();
+    var githubIssueSearchQueryStringBuilder = new StringBuilder();
     githubIssueSearchQueryStringBuilder.append("is:issue").append(" ");
     if (language != null) {
       githubIssueSearchQueryStringBuilder.append("language:").append(language).append(" ");

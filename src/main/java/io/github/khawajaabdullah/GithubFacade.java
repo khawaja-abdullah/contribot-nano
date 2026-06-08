@@ -35,7 +35,7 @@ public class GithubFacade {
         .GET()
         .build();
     try {
-      HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+      var httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
       if (httpResponse.statusCode() != 200) {
         throw new ContribotNanoException("GitHub API returned non-OK status: %d, response body: %s".formatted(
             httpResponse.statusCode(), httpResponse.body()
