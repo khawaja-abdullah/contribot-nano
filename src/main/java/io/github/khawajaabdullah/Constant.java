@@ -13,6 +13,7 @@ public class Constant {
   public static final String GITHUB_ISSUE_SEARCH_QUERY_UNASSIGNED_KEY = "github.issue.search.query.unassigned";
 
   public static final String ACCEPT_HEADER = "Accept";
+  public static final String GITHUB_MEDIA_TYPE = "application/vnd.github+json";
   public static final String AUTHORIZATION_HEADER = "Authorization";
   public static final String GITHUB_API_TOKEN = "github.api.token";
 

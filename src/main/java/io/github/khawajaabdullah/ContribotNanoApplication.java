@@ -17,12 +17,13 @@ public class ContribotNanoApplication {
           .withCreatedAfter(applicationConfiguration.getValue(Constant.GITHUB_ISSUE_SEARCH_QUERY_CREATED_AFTER_KEY))
           .withUnassigned(applicationConfiguration.getValue(Constant.GITHUB_ISSUE_SEARCH_QUERY_UNASSIGNED_KEY))
           .build();
-      var rawQuery = githubIssueSearchQuery.toString();
-      LOGGER.log(System.Logger.Level.INFO, "Constructed GitHub issue search raw query: {0}", rawQuery);
-      String issues = githubFacade.searchIssues(rawQuery);
-      LOGGER.log(System.Logger.Level.INFO, "Fetched issues: {0}", issues);
+      var githubIssueSearchQueryString = githubIssueSearchQuery.toString();
+      LOGGER.log(System.Logger.Level.INFO, "Constructed GitHub issue search query: {0}", githubIssueSearchQueryString);
+      String githubIssuesJsonString = githubFacade.searchIssues(githubIssueSearchQueryString);
+      LOGGER.log(System.Logger.Level.INFO, "Fetched issues: {0}", githubIssuesJsonString);
     } catch (ContribotNanoException e) {
       LOGGER.log(System.Logger.Level.ERROR, "Failed to start Contribot Nano application: {0}", e.getMessage());
+      System.exit(1);
     }
   }
 
