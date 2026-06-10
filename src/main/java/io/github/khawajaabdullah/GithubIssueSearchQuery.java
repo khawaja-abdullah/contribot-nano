@@ -21,24 +21,24 @@ public class GithubIssueSearchQuery {
   }
 
   public String toString() {
-    var githubIssueSearchQueryStringBuilder = new StringBuilder();
-    githubIssueSearchQueryStringBuilder.append("is:issue").append(" ");
+    var githubIssueSearchQuery = new StringBuilder();
+    githubIssueSearchQuery.append("is:issue").append(" ");
     if (language != null) {
-      githubIssueSearchQueryStringBuilder.append("language:").append(language).append(" ");
+      githubIssueSearchQuery.append("language:").append(language).append(" ");
     }
     if (label != null) {
-      githubIssueSearchQueryStringBuilder.append("label:").append("\"").append(label).append("\"").append(" ");
+      githubIssueSearchQuery.append("label:").append("\"").append(label).append("\"").append(" ");
     }
     if (state != null) {
-      githubIssueSearchQueryStringBuilder.append("state:").append(state).append(" ");
+      githubIssueSearchQuery.append("state:").append(state).append(" ");
     }
     if (createdAfter != null) {
-      githubIssueSearchQueryStringBuilder.append("created:>=").append(createdAfter).append(" ");
+      githubIssueSearchQuery.append("created:>=").append(createdAfter).append(" ");
     }
     if ("true".equalsIgnoreCase(unassigned)) {
-      githubIssueSearchQueryStringBuilder.append("no:assignee").append(" ");
+      githubIssueSearchQuery.append("no:assignee").append(" ");
     }
-    return githubIssueSearchQueryStringBuilder.toString().trim();
+    return githubIssueSearchQuery.toString().trim();
   }
 
   public static class GithubIssueSearchQueryBuilder {
