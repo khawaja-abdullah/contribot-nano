@@ -1,7 +1,6 @@
 package io.github.khawajaabdullah;
 
 import java.net.http.HttpClient;
-import java.nio.file.Path;
 
 public class ContribotNanoApplication {
 

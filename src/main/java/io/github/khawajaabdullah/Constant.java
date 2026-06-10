@@ -86,7 +86,7 @@ public final class Constant {
   public static final String GITHUB_ISSUE_EMPTY_ROW_TEMPLATE = """
       <tr>
           <td colspan="2" style="padding: 32px 8px; text-align: center; font-size: 14px; color: #57606a; font-style: italic; background-color: #fafafa; border-radius: 6px;">
-              No Github issues matched your specific query filters today
+              No Github issues matched your specific query filters
           </td>
       </tr>
       """;
