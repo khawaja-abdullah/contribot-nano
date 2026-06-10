@@ -20,16 +20,16 @@ public class GithubFacade {
     this.applicationConfiguration = applicationConfiguration;
   }
 
-  public String searchIssues(String rawQuery) {
+  public String searchIssues(String query) {
     var url = "%s%s?q=%s&sort=created&order=desc&per_page=%s".formatted(
         applicationConfiguration.getValue(Constant.GITHUB_API_BASE_URL_KEY),
         applicationConfiguration.getValue(Constant.GITHUB_API_ISSUE_SEARCH_PATH_KEY),
-        URLEncoder.encode(rawQuery, StandardCharsets.UTF_8),
+        URLEncoder.encode(query, StandardCharsets.UTF_8),
         applicationConfiguration.getValue(Constant.GITHUB_API_ISSUE_SEARCH_PAGE_SIZE_KEY)
     );
     LOGGER.log(System.Logger.Level.INFO, "Constructed GitHub API URL: {0}", url);
     var httpRequest = HttpRequest.newBuilder()
-        .header(Constant.ACCEPT_HEADER, "application/vnd.github+json")
+        .header(Constant.ACCEPT_HEADER, Constant.GITHUB_MEDIA_TYPE)
         .header(Constant.AUTHORIZATION_HEADER, "Bearer %s".formatted(applicationConfiguration.getValue(Constant.GITHUB_API_TOKEN)))
         .uri(URI.create(url))
         .GET()
