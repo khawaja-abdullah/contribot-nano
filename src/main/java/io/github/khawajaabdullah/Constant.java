@@ -23,7 +23,7 @@ public final class Constant {
   public static final String AUTHORIZATION_HEADER = "Authorization";
   public static final String GITHUB_MEDIA_TYPE = "application/vnd.github+json";
 
-  public static final String GITHUB_ISSUE_FILTERED_RESPONSE_REGEX = "\"html_url\"\\s*:\\s*\"([^\"]+)\".*?\"title\"\\s*:\\s*\"([^\"]+)\"";
+  public static final String GITHUB_ISSUE_FILTERED_RESPONSE_REGEX = "\"html_url\"\\s*:\\s*\"(https://github\\.com/[^\"]+?/(?:issues|pull)/\\d+)\".*?\"title\"\\s*:\\s*\"([^\"]+?)\"";
   public static final Pattern GITHUB_ISSUE_FILTERED_RESPONSE_PATTERN = Pattern.compile(Constant.GITHUB_ISSUE_FILTERED_RESPONSE_REGEX);
 
   public static final String GITHUB_ISSUE_REPORT_HTML_TEMPLATE = """
