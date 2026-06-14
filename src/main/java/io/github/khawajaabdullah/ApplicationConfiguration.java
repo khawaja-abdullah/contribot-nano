@@ -9,14 +9,14 @@ public class ApplicationConfiguration {
 
   public ApplicationConfiguration() {
     properties = new Properties();
-    loadDefaultProperties();
+    loadProperties(Constant.APPLICATION_DEFAULT_PROPERTIES_FILE_PATH);
   }
 
-  private void loadDefaultProperties() {
-    try (var inputStream = new ByteArrayInputStream(Util.loadResourceAsBytes(Constant.APPLICATION_DEFAULT_PROPERTIES_FILE_PATH))) {
+  private void loadProperties(String path) {
+    try (var inputStream = new ByteArrayInputStream(Util.loadResourceAsBytes(path))) {
       properties.load(inputStream);
     } catch (Exception e) {
-      throw new ContribotNanoException("Failed to load default properties: %s".formatted(e.getMessage()), e);
+      throw new ContribotNanoException("Failed to load properties path [%s]: %s".formatted(path, e.getMessage()), e);
     }
   }
 
