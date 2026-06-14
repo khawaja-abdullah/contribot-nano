@@ -26,6 +26,13 @@ public final class Constant {
   public static final String GITHUB_ISSUE_FILTERED_RESPONSE_REGEX = "\"html_url\"\\s*:\\s*\"(https://github\\.com/[^\"]+?/(?:issues|pull)/\\d+)\".*?\"title\"\\s*:\\s*\"([^\"]+?)\"";
   public static final Pattern GITHUB_ISSUE_FILTERED_RESPONSE_PATTERN = Pattern.compile(Constant.GITHUB_ISSUE_FILTERED_RESPONSE_REGEX);
 
+  public static final String GITHUB_ISSUE_REPORT_SKELETON_TEMPLATE_PATH = "/templates/github_issue_report_skeleton.html";
+  public static final String GITHUB_ISSUE_REPORT_ROW_TEMPLATE_PATH = "/templates/github_issue_report_row.html";
+  public static final String GITHUB_ISSUE_REPORT_EMPTY_ROW_TEMPLATE_PATH = "/templates/github_issue_report_empty_row.html";
+  public static final String GITHUB_ISSUE_REPORT_SKELETON_TEMPLATE_ISSUE_PLACEHOLDER = "{{ISSUES}}";
+  public static final String GITHUB_ISSUE_REPORT_ROW_TEMPLATE_TITLE_PLACEHOLDER = "{{TITLE}}";
+  public static final String GITHUB_ISSUE_REPORT_ROW_TEMPLATE_URL_PLACEHOLDER = "{{URL}}";
+
   private Constant() {
   }
 

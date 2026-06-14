@@ -10,14 +10,14 @@ import java.util.List;
 
 public final class Util {
 
-  private static final String GITHUB_ISSUE_REPORT_SKELETON;
+  private static final String GITHUB_ISSUE_REPORT_SKELETON_TEMPLATE;
   private static final String GITHUB_ISSUE_REPORT_ROW_TEMPLATE;
   private static final String GITHUB_ISSUE_REPORT_EMPTY_ROW_TEMPLATE;
 
   static {
-    GITHUB_ISSUE_REPORT_SKELETON = new String(loadResourceAsBytes("/templates/github_issue_report_skeleton.html"), StandardCharsets.UTF_8);
-    GITHUB_ISSUE_REPORT_ROW_TEMPLATE = new String(loadResourceAsBytes("/templates/github_issue_report_row_template.html"), StandardCharsets.UTF_8);
-    GITHUB_ISSUE_REPORT_EMPTY_ROW_TEMPLATE = new String(loadResourceAsBytes("/templates/github_issue_report_empty_row_template.html"), StandardCharsets.UTF_8);
+    GITHUB_ISSUE_REPORT_SKELETON_TEMPLATE = new String(loadResourceAsBytes(Constant.GITHUB_ISSUE_REPORT_SKELETON_TEMPLATE_PATH), StandardCharsets.UTF_8);
+    GITHUB_ISSUE_REPORT_ROW_TEMPLATE = new String(loadResourceAsBytes(Constant.GITHUB_ISSUE_REPORT_ROW_TEMPLATE_PATH), StandardCharsets.UTF_8);
+    GITHUB_ISSUE_REPORT_EMPTY_ROW_TEMPLATE = new String(loadResourceAsBytes(Constant.GITHUB_ISSUE_REPORT_EMPTY_ROW_TEMPLATE_PATH), StandardCharsets.UTF_8);
   }
 
   private Util() {
@@ -36,16 +36,22 @@ public final class Util {
 
   public static String generateGithubIssueReport(List<GithubIssue> githubIssues) {
     if (githubIssues == null || githubIssues.isEmpty()) {
-      return GITHUB_ISSUE_REPORT_SKELETON.replace("{{ISSUES}}", GITHUB_ISSUE_REPORT_EMPTY_ROW_TEMPLATE);
+      return GITHUB_ISSUE_REPORT_SKELETON_TEMPLATE.replace(
+          Constant.GITHUB_ISSUE_REPORT_SKELETON_TEMPLATE_ISSUE_PLACEHOLDER,
+          GITHUB_ISSUE_REPORT_EMPTY_ROW_TEMPLATE
+      );
     }
     var githubIssueReportTableRows = new StringBuilder();
     for (var githubIssue : githubIssues) {
       var githubIssueReportTableRow = GITHUB_ISSUE_REPORT_ROW_TEMPLATE
-          .replace("{{TITLE}}", githubIssue.title())
-          .replace("{{URL}}", githubIssue.htmlUrl());
+          .replace(Constant.GITHUB_ISSUE_REPORT_ROW_TEMPLATE_TITLE_PLACEHOLDER, githubIssue.title())
+          .replace(Constant.GITHUB_ISSUE_REPORT_ROW_TEMPLATE_URL_PLACEHOLDER, githubIssue.htmlUrl());
       githubIssueReportTableRows.append(githubIssueReportTableRow);
     }
-    return GITHUB_ISSUE_REPORT_SKELETON.replace("{{ISSUES}}", githubIssueReportTableRows.toString());
+    return GITHUB_ISSUE_REPORT_SKELETON_TEMPLATE.replace(
+        Constant.GITHUB_ISSUE_REPORT_SKELETON_TEMPLATE_ISSUE_PLACEHOLDER,
+        githubIssueReportTableRows.toString()
+    );
   }
 
   public static byte[] loadResourceAsBytes(String path) {
