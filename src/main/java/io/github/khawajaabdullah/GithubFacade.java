@@ -1,6 +1,5 @@
 package io.github.khawajaabdullah;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
@@ -34,20 +33,19 @@ public class GithubFacade {
         .uri(URI.create(url))
         .GET()
         .build();
-    try {
-      var httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-      if (httpResponse.statusCode() != 200) {
-        throw new ContribotNanoException("GitHub API returned non-OK status: %d, response body: %s".formatted(
-            httpResponse.statusCode(), httpResponse.body()
-        ));
-      }
-      return httpResponse.body();
-    } catch (IOException e) {
-      throw new ContribotNanoException("Failed to search issues on GitHub: %s".formatted(e.getMessage()), e);
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new ContribotNanoException("Failed to search issues on GitHub: %s".formatted(e.getMessage()), e);
+    var httpResponse = RetryableExecutor.executeWithRetry(
+        () -> httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString()),
+          response -> response.statusCode() == 429 || (response.statusCode() >= 500 && response.statusCode() < 600),
+        Integer.parseInt(applicationConfiguration.getValue(Constant.GITHUB_API_ISSUE_SEARCH_MAX_RETRIES_KEY)),
+        Long.parseLong(applicationConfiguration.getValue(Constant.GITHUB_API_ISSUE_SEARCH_RETRY_BASE_DELAY_MILLIS_KEY)),
+        Long.parseLong(applicationConfiguration.getValue(Constant.GITHUB_API_ISSUE_SEARCH_RETRY_MAX_DELAY_MILLIS_KEY))
+    );
+    if (httpResponse.statusCode() != 200) {
+      throw new ContribotNanoException("GitHub API returned non-OK status: %d, response body: %s".formatted(
+          httpResponse.statusCode(), httpResponse.body()
+      ));
     }
+    return httpResponse.body();
   }
 
 }

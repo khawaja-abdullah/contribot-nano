@@ -10,6 +10,9 @@ public final class Constant {
   public static final String GITHUB_API_TOKEN = "github.api.token";
   public static final String GITHUB_API_ISSUE_SEARCH_PATH_KEY = "github.api.issue.search.path";
   public static final String GITHUB_API_ISSUE_SEARCH_PAGE_SIZE_KEY = "github.api.issue.search.page.size";
+  public static final String GITHUB_API_ISSUE_SEARCH_MAX_RETRIES_KEY = "github.api.issue.search.max.retries";
+  public static final String GITHUB_API_ISSUE_SEARCH_RETRY_BASE_DELAY_MILLIS_KEY = "github.api.issue.search.retry.base.delay.millis";
+  public static final String GITHUB_API_ISSUE_SEARCH_RETRY_MAX_DELAY_MILLIS_KEY = "github.api.issue.search.retry.max.delay.millis";
 
   public static final String GITHUB_ISSUE_SEARCH_QUERY_LANGUAGE_KEY = "github.issue.search.query.language";
   public static final String GITHUB_ISSUE_SEARCH_QUERY_LABEL_KEY = "github.issue.search.query.label";
