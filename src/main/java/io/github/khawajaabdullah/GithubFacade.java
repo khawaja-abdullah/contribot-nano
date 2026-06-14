@@ -33,7 +33,7 @@ public class GithubFacade {
         .uri(URI.create(url))
         .GET()
         .build();
-    var httpResponse = RetryableExecutor.executeWithRetry(
+    HttpResponse<String> httpResponse = RetryableExecutor.executeWithRetry(
         () -> httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString()),
           response -> response.statusCode() == 429 || (response.statusCode() >= 500 && response.statusCode() < 600),
         Integer.parseInt(applicationConfiguration.getValue(Constant.GITHUB_API_ISSUE_SEARCH_MAX_RETRIES_KEY)),
