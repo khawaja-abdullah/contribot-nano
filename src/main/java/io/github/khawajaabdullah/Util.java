@@ -1,6 +1,7 @@
 package io.github.khawajaabdullah;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -8,6 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class Util {
+
+  private static final String GITHUB_ISSUE_REPORT_SKELETON;
+  private static final String GITHUB_ISSUE_REPORT_ROW_TEMPLATE;
+  private static final String GITHUB_ISSUE_REPORT_EMPTY_ROW_TEMPLATE;
+
+  static {
+    GITHUB_ISSUE_REPORT_SKELETON = new String(loadResourceAsBytes("/templates/github_issue_report_skeleton.html"), StandardCharsets.UTF_8);
+    GITHUB_ISSUE_REPORT_ROW_TEMPLATE = new String(loadResourceAsBytes("/templates/github_issue_report_row_template.html"), StandardCharsets.UTF_8);
+    GITHUB_ISSUE_REPORT_EMPTY_ROW_TEMPLATE = new String(loadResourceAsBytes("/templates/github_issue_report_empty_row_template.html"), StandardCharsets.UTF_8);
+  }
 
   private Util() {
   }
@@ -25,13 +36,28 @@ public final class Util {
 
   public static String generateGithubIssueReport(List<GithubIssue> githubIssues) {
     if (githubIssues == null || githubIssues.isEmpty()) {
-      return Constant.GITHUB_ISSUE_REPORT_HTML_TEMPLATE.formatted(Constant.GITHUB_ISSUE_EMPTY_ROW_TEMPLATE);
+      return GITHUB_ISSUE_REPORT_SKELETON.replace("{{ISSUES}}", GITHUB_ISSUE_REPORT_EMPTY_ROW_TEMPLATE);
     }
     var githubIssueReportTableRows = new StringBuilder();
     for (var githubIssue : githubIssues) {
-      githubIssueReportTableRows.append(Constant.GITHUB_ISSUE_ROW_TEMPLATE.formatted(githubIssue.title(), githubIssue.htmlUrl()));
+      var githubIssueReportTableRow = GITHUB_ISSUE_REPORT_ROW_TEMPLATE
+          .replace("{{TITLE}}", githubIssue.title())
+          .replace("{{URL}}", githubIssue.htmlUrl());
+      githubIssueReportTableRows.append(githubIssueReportTableRow);
     }
-    return Constant.GITHUB_ISSUE_REPORT_HTML_TEMPLATE.formatted(githubIssueReportTableRows.toString());
+    return GITHUB_ISSUE_REPORT_SKELETON.replace("{{ISSUES}}", githubIssueReportTableRows.toString());
+  }
+
+  public static byte[] loadResourceAsBytes(String path) {
+    try (var inputStream = Util.class.getResourceAsStream(path)) {
+      if (inputStream != null) {
+        return inputStream.readAllBytes();
+      } else {
+        throw new ContribotNanoException("%s file not found in classpath".formatted(path));
+      }
+    } catch (IOException e) {
+      throw new ContribotNanoException("Failed to load resource file: %s".formatted(path), e);
+    }
   }
 
   public static void writeToFile(String outputPathString, String content) {

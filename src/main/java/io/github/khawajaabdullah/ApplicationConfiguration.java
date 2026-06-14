@@ -1,5 +1,6 @@
 package io.github.khawajaabdullah;
 
+import java.io.ByteArrayInputStream;
 import java.util.Properties;
 
 public class ApplicationConfiguration {
@@ -8,18 +9,14 @@ public class ApplicationConfiguration {
 
   public ApplicationConfiguration() {
     properties = new Properties();
-    load(Constant.APPLICATION_DEFAULT_PROPERTIES_FILE_PATH);
+    loadDefaultProperties();
   }
 
-  private void load(String filePath) {
-    try (var inputStream = getClass().getClassLoader().getResourceAsStream(filePath)) {
-      if (inputStream != null) {
-        properties.load(inputStream);
-      } else {
-        throw new ContribotNanoException("%s file not found in classpath".formatted(filePath));
-      }
+  private void loadDefaultProperties() {
+    try (var inputStream = new ByteArrayInputStream(Util.loadResourceAsBytes(Constant.APPLICATION_DEFAULT_PROPERTIES_FILE_PATH))) {
+      properties.load(inputStream);
     } catch (Exception e) {
-      throw new ContribotNanoException("Failed to load application configuration: %s".formatted(e.getMessage()), e);
+      throw new ContribotNanoException("Failed to load default properties: %s".formatted(e.getMessage()), e);
     }
   }
 
