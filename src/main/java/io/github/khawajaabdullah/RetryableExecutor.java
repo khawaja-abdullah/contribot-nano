@@ -5,7 +5,8 @@ import java.util.function.Predicate;
 
 public final class RetryableExecutor {
 
-  public static <T> T executeWithRetry(Task<T> task, Predicate<T> shouldRetry, int maxRetries, long baseDelayMillis, long maxDelayMillis) {
+  public static <T> T executeWithRetry(Task<T> task, Predicate<T> shouldRetry,
+                                       int maxRetries, long baseDelayMillis, long maxDelayMillis) {
     int attempt = 0;
     while (true) {
       try {

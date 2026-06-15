@@ -18,6 +18,8 @@ public final class Constant {
   public static final String GITHUB_ISSUE_SEARCH_QUERY_LABEL_KEY = "github.issue.search.query.label";
   public static final String GITHUB_ISSUE_SEARCH_QUERY_STATE_KEY = "github.issue.search.query.state";
   public static final String GITHUB_ISSUE_SEARCH_QUERY_CREATED_AFTER_KEY = "github.issue.search.query.createdAfter";
+  public static final String GITHUB_ISSUE_SEARCH_QUERY_CREATED_AFTER_LOOK_BACK_ENABLED_KEY = "github.issue.search.query.createdAfter.lookBack.enabled";
+  public static final String GITHUB_ISSUE_SEARCH_QUERY_CREATED_AFTER_LOOK_BACK_HOURS_KEY = "github.issue.search.query.createdAfter.lookBack.hours";
   public static final String GITHUB_ISSUE_SEARCH_QUERY_UNASSIGNED_KEY = "github.issue.search.query.unassigned";
 
   public static final String GITHUB_ISSUE_REPORT_OUTPUT_PATH_KEY = "github.issue.report.output.path";

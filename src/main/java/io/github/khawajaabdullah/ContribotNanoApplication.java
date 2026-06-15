@@ -14,7 +14,11 @@ public class ContribotNanoApplication {
           .withLanguage(applicationConfiguration.getValue(Constant.GITHUB_ISSUE_SEARCH_QUERY_LANGUAGE_KEY))
           .withLabel(applicationConfiguration.getValue(Constant.GITHUB_ISSUE_SEARCH_QUERY_LABEL_KEY))
           .withState(applicationConfiguration.getValue(Constant.GITHUB_ISSUE_SEARCH_QUERY_STATE_KEY))
-          .withCreatedAfter(applicationConfiguration.getValue(Constant.GITHUB_ISSUE_SEARCH_QUERY_CREATED_AFTER_KEY))
+          .withCreatedAfter(
+              Boolean.parseBoolean(applicationConfiguration.getValue(Constant.GITHUB_ISSUE_SEARCH_QUERY_CREATED_AFTER_LOOK_BACK_ENABLED_KEY)) ?
+                  Util.getTimeBeforeHours(Integer.parseInt(applicationConfiguration.getValue(Constant.GITHUB_ISSUE_SEARCH_QUERY_CREATED_AFTER_LOOK_BACK_HOURS_KEY))) :
+                  applicationConfiguration.getValue(Constant.GITHUB_ISSUE_SEARCH_QUERY_CREATED_AFTER_KEY)
+          )
           .withUnassigned(applicationConfiguration.getValue(Constant.GITHUB_ISSUE_SEARCH_QUERY_UNASSIGNED_KEY))
           .build();
       var githubIssueSearchQueryString = githubIssueSearchQuery.toString();

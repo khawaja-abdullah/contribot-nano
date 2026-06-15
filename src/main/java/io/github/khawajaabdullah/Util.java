@@ -5,6 +5,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,10 @@ public final class Util {
   }
 
   private Util() {
+  }
+
+  public static String getTimeBeforeHours(long hours) {
+    return LocalDateTime.now(ZoneOffset.UTC).minusHours(hours).toString();
   }
 
   public static List<GithubIssue> mapToGithubIssues(String jsonString) {
