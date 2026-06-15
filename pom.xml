@@ -35,7 +35,7 @@
                         </executions>
                         <configuration>
                             <mainClass>io.github.khawajaabdullah.ContribotNanoApplication</mainClass>
-                            <imageName>app-native</imageName>
+                            <imageName>contribot-nano-native</imageName>
                             <buildArgs>
                                 <buildArg>--no-fallback</buildArg>
                                 <buildArg>-H:IncludeResources=templates/.*</buildArg>
