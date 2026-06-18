@@ -40,7 +40,7 @@ public final class Util {
     return githubIssues;
   }
 
-  public static String generateGithubIssueReport(List<GithubIssue> githubIssues) {
+  public static String prepareGithubIssueReport(List<GithubIssue> githubIssues) {
     if (githubIssues == null || githubIssues.isEmpty()) {
       return GITHUB_ISSUE_REPORT_SKELETON_TEMPLATE.replace(
           Constant.GITHUB_ISSUE_REPORT_SKELETON_TEMPLATE_ISSUE_PLACEHOLDER,

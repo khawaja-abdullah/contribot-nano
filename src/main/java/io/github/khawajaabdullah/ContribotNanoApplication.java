@@ -27,7 +27,7 @@ public class ContribotNanoApplication {
       LOGGER.log(System.Logger.Level.INFO, "Fetched GitHub issues JSON: {0}", githubIssuesJsonString);
       var githubIssues = Util.mapToGithubIssues(githubIssuesJsonString);
       LOGGER.log(System.Logger.Level.INFO, "Mapped GitHub issues JSON to List<GithubIssue>: {0}", githubIssues);
-      var githubIssueReport = Util.generateGithubIssueReport(githubIssues);
+      var githubIssueReport = Util.prepareGithubIssueReport(githubIssues);
       LOGGER.log(System.Logger.Level.INFO, "Generated GitHub issue report: {0}", githubIssueReport);
       Util.writeToFile(applicationConfiguration.getValue(Constant.GITHUB_ISSUE_REPORT_OUTPUT_PATH_KEY), githubIssueReport);
       LOGGER.log(System.Logger.Level.INFO, "GitHub issue report written to output path.");
