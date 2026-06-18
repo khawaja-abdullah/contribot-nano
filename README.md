@@ -1,14 +1,14 @@
 # Contribot Nano
 
 - [Contribot](https://github.com/khawaja-abdullah/contribot), but in core Java and zero external dependencies. 
+- Looks up GitHub issues based on user defined filters and generates an HTML report containing a curated issues list. 
 - GraalVM native image compatible.
-- Looks up GitHub issues based on user defined filters and writes them to an HTML report. 
 
 ## Regular build
 
 ```bash
 mvn clean package
-java -jar target/contribot-nano-1.0-SNAPSHOT.jar
+java -jar target/contribot-nano-${version}.jar
 ```
 
 ## Native build
