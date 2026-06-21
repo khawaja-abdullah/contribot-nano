@@ -2,7 +2,7 @@ name: Contribot Nano - Scheduled Digest
 
 on:
   schedule:
-    - cron: '0 */3 * * *'   # every 3 hours, on the hour, UTC
+    - cron: '2 */1 * * *'
   workflow_dispatch:
 
 jobs:
