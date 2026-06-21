@@ -25,7 +25,7 @@ jobs:
       - name: Run Contribot Nano
         env:
           GITHUB_API_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: java -jar target/contribot-nano-1.0-SNAPSHOT.jar
+        run: java -cp target/contribot-nano-1.0-SNAPSHOT.jar io.github.khawajaabdullah.ContribotNanoApplication
 
       - name: Send digest email
         uses: dawidd6/action-send-mail@42942bc2f8fba4e611b459a018967a6a7c78c68c # v17
