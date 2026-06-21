@@ -1,0 +1,39 @@
+name: Contribot Nano - Scheduled Digest
+
+on:
+  schedule:
+    - cron: '0 */3 * * *'   # every 3 hours, on the hour, UTC
+  workflow_dispatch:
+
+jobs:
+  run-and-email:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build
+        run: mvn clean package -DskipTests
+
+      - name: Run Contribot Nano
+        env:
+          GITHUB_API_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: java -jar target/contribot-nano-1.0-SNAPSHOT.jar
+
+      - name: Send digest email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: 'Contribot Nano Digest'
+          to: khawaja.abdullah.ansar@gmail.com
+          from: Contribot Nano
+          html_body: file://dist/digest.html
