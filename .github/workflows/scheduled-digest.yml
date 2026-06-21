@@ -36,5 +36,5 @@ jobs:
           password: ${{ secrets.SMTP_PASSWORD }}
           subject: 'Contribot Nano Digest'
           to: khawaja.abdullah.ansar@gmail.com
-          from: Contribot Nano
+          from: Contribot Nano <${{ secrets.SMTP_USERNAME }}>
           html_body: file://dist/digest.html
