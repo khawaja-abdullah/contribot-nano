@@ -7,7 +7,7 @@
 ### Build & Run (regular jar)
 ```bash
 mvn clean package
-java -jar target/contribot-nano-${version}.jar
+java -cp target/contribot-nano-<version>.jar io.github.khawajaabdullah.ContribotNanoApplication
 ```
 
 ### Build & Run (GraalVM native image)

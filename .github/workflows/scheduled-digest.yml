@@ -2,8 +2,11 @@ name: Contribot Nano - Scheduled Digest
 
 on:
   schedule:
-    - cron: '2 */1 * * *'
+    - cron: '0 */1 * * *'
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   run-and-email:
@@ -11,6 +14,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Read last run timestamp from state branch
+        id: lastrun
+        run: |
+          if git ls-remote --exit-code --heads origin state >/dev/null 2>&1; then
+            git fetch origin state
+            echo "value=$(git show origin/state:last-run.txt 2>/dev/null || echo '')" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Set up JDK 21
         uses: actions/setup-java@ad2b38190b15e4d6bdf0c97fb4fca8412226d287 # v5.3.0
@@ -25,6 +38,7 @@ jobs:
       - name: Run Contribot Nano
         env:
           GITHUB_API_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_ISSUE_SEARCH_QUERY_CREATEDAFTER: ${{ steps.lastrun.outputs.value }}
         run: java -cp target/contribot-nano-1.0-SNAPSHOT.jar io.github.khawajaabdullah.ContribotNanoApplication
 
       - name: Send digest email
@@ -38,3 +52,22 @@ jobs:
           to: ${{ vars.TO_EMAIL }}
           from: Contribot Nano <${{ vars.FROM_EMAIL }}>
           html_body: file://dist/digest.html
+
+      - name: Push new timestamp to state branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          NEW_TS=$(date -u +%Y-%m-%dT%H:%M:%S)
+          
+          if git ls-remote --exit-code --heads origin state >/dev/null 2>&1; then
+            git fetch origin state
+            git checkout state
+          else
+            git checkout --orphan state
+            git rm -rf . > /dev/null 2>&1 || true
+          fi
+          
+          echo "$NEW_TS" > last-run.txt
+          git add last-run.txt
+          git commit -m "chore: update last run timestamp to $NEW_TS"
+          git push origin state
