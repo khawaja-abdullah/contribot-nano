@@ -11,10 +11,10 @@ updates:
     reviewers:
       - "khawaja-abdullah"
     commit-message:
-      prefix: "deps(ci)"
+      prefix: "deps(github-actions)"
     labels:
       - "dependencies"
-      - "ci"
+      - "github-actions"
     groups:
       actions:
         patterns:
