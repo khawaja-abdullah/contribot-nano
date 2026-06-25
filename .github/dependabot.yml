@@ -18,7 +18,10 @@ updates:
     groups:
       actions:
         patterns:
-          - "actions"
+          - "actions/*"
       graalvm:
         patterns:
-          - "graalvm"
+          - "graalvm/*"
+      softprops:
+        patterns:
+          - "softprops/*"

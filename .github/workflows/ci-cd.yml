@@ -21,7 +21,7 @@ jobs:
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: contribot-nano-jar
-          path: target/contribot-nano-1.0-SNAPSHOT.jar
+          path: target/contribot-nano-*.jar
   run:
     needs: build
     runs-on: ubuntu-latest
@@ -41,4 +41,4 @@ jobs:
           GITHUB_API_TOKEN: ${{ secrets.GH_TOKEN }}
           GITHUB_ISSUE_SEARCH_QUERY_CREATEDAFTER_LOOKBACK_ENABLED: true
           GITHUB_ISSUE_SEARCH_QUERY_CREATEDAFTER_LOOKBACK_HOURS: 1
-        run: java -cp target/contribot-nano-1.0-SNAPSHOT.jar io.github.khawajaabdullah.ContribotNanoApplication
+        run: java -cp target/contribot-nano-*.jar io.github.khawajaabdullah.ContribotNanoApplication
