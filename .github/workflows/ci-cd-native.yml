@@ -1,0 +1,37 @@
+name: CI CD (Native)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - name: Set up JDK 21
+        uses: actions/setup-java@ad2b38190b15e4d6bdf0c97fb4fca8412226d287 # v5.3.0
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+      - name: Package (native)
+        run: mvn clean package -PNative -DskipTests
+  run:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - name: Set up JDK 21
+        uses: actions/setup-java@ad2b38190b15e4d6bdf0c97fb4fca8412226d287 # v5.3.0
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+      - name: Run (native)
+        env:
+          GITHUB_API_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_ISSUE_SEARCH_QUERY_CREATEDAFTER_LOOKBACK_ENABLED: true
+          GITHUB_ISSUE_SEARCH_QUERY_CREATEDAFTER_LOOKBACK_HOURS: 1
+        run: ./target/contribot-nano-native
